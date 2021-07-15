@@ -1,6 +1,70 @@
-import type { AppProps } from 'next/app';
+import {
+   split,
+   ApolloClient,
+   ApolloLink,
+   InMemoryCache,
+   createHttpLink,
+   ApolloProvider,
+} from '@apollo/client'
+import fetch from 'node-fetch'
+import type { AppProps } from 'next/app'
+import { WebSocketLink } from '@apollo/client/link/ws'
+import { getMainDefinition } from '@apollo/client/utilities'
+import { SubscriptionClient } from 'subscriptions-transport-ws'
+
+const wssLink = process.browser
+   ? new WebSocketLink(
+        new SubscriptionClient(process.env.NEXT_PUBLIC_GRAPHQL_WSS_ENDPOINT, {
+           reconnect: true,
+           connectionParams: {
+              headers: {
+                 'x-hasura-admin-secret':
+                    process.env.NEXT_PUBLIC_GRAPHQL_SECRET,
+              },
+           },
+        })
+     )
+   : null
+
+const authLink = new ApolloLink((operation, forward) => {
+   operation.setContext(({ headers }) => ({
+      headers: {
+         ...headers,
+         'x-hasura-admin-secret': process.env.NEXT_PUBLIC_GRAPHQL_SECRET,
+      },
+   }))
+   return forward(operation)
+})
+
+const httpLink = createHttpLink({
+   fetch,
+   uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+})
+
+const splitLink = process.browser
+   ? split(
+        ({ query }) => {
+           const definition = getMainDefinition(query)
+           return (
+              definition.kind === 'OperationDefinition' &&
+              definition.operation === 'subscription'
+           )
+        },
+        wssLink,
+        authLink.concat(httpLink)
+     )
+   : authLink.concat(httpLink)
+
+const client = new ApolloClient({
+   link: splitLink,
+   cache: new InMemoryCache(),
+})
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+   return (
+      <ApolloProvider client={client}>
+         <Component {...pageProps} />
+      </ApolloProvider>
+   )
 }
-export default MyApp;
+export default MyApp
