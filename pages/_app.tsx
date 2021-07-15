@@ -8,6 +8,7 @@ import {
 } from '@apollo/client'
 import fetch from 'node-fetch'
 import type { AppProps } from 'next/app'
+import { GlobalStyles } from 'twin.macro'
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { getMainDefinition } from '@apollo/client/utilities'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
@@ -63,6 +64,7 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }: AppProps) {
    return (
       <ApolloProvider client={client}>
+         <GlobalStyles />
          <Component {...pageProps} />
       </ApolloProvider>
    )
