@@ -22,4 +22,10 @@ export default NextAuth({
          rejectUnauthorized: false,
       },
    },
+   callbacks: {
+      async session(session, token) {
+         session.user.id = token.id
+         return session
+      },
+   },
 })
