@@ -1,12 +1,13 @@
 import type { AppProps } from 'next/app'
-import { GlobalStyles } from 'twin.macro'
 
 import { Apollo } from '../lib'
+import global from '../styles/global'
+import '../styles/global.css'
 
 function App({ Component, pageProps }: AppProps) {
+   global()
    return (
       <Apollo>
-         <GlobalStyles />
          <Component {...pageProps} />
       </Apollo>
    )
