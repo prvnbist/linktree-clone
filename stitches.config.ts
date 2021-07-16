@@ -1,4 +1,5 @@
 import { createCss, StitchesCss } from '@stitches/react'
+
 export type { StitchesVariants } from '@stitches/react'
 
 export const stitches = createCss({
