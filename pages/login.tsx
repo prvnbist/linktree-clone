@@ -24,7 +24,7 @@ const Login = ({ providers }: ILogin) => {
 
    useEffect(() => {
       if (!loading && session?.user?.email) {
-         // router.push('/admin')
+         router.push('/admin')
       }
    }, [router, loading, session])
 
