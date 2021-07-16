@@ -8,6 +8,9 @@ export default NextAuth({
          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       }),
    ],
+   pages: {
+      signIn: '/login',
+   },
    database: {
       type: 'postgres',
       host: process.env.DATABASE_HOST,

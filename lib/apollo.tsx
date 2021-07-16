@@ -61,7 +61,7 @@ const client = new ApolloClient({
 })
 
 interface IApollo {
-   children: React.ReactChild[] | React.ReactChildren[]
+   children: React.ReactChild | React.ReactChildren
 }
 
 export const Apollo = ({ children }: IApollo) => {
