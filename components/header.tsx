@@ -23,9 +23,17 @@ export const Header = () => {
                <>
                   <span
                      title={session.user?.name}
-                     tw="flex items-center justify-center h-10 w-10 bg-green-300 text-black rounded-full"
+                     tw="overflow-hidden flex items-center justify-center h-10 w-10 bg-green-300 text-black rounded-full"
                   >
-                     {get_initials(session.user?.name)}
+                     {session.user?.image ? (
+                        <img
+                           src={session.user?.image}
+                           alt={session.user?.name}
+                           tw="object-cover w-full h-full"
+                        />
+                     ) : (
+                        get_initials(session.user?.name)
+                     )}
                   </span>
                   <button
                      onClick={() => signOut({ redirect: false })}
