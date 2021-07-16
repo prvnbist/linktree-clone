@@ -9,7 +9,7 @@ interface ILayout {
 
 export const Layout = ({ children }: ILayout) => {
    return (
-      <div tw="h-screen w-screen bg-gray-100">
+      <div tw="h-screen w-full bg-gray-100">
          <Header />
          {children}
       </div>

@@ -1,5 +1,6 @@
 import tw from 'twin.macro'
 import Link from 'next/link'
+import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/client'
 
 const get_initials = name =>
@@ -26,10 +27,11 @@ export const Header = () => {
                      tw="overflow-hidden flex items-center justify-center h-10 w-10 bg-green-300 text-black rounded-full"
                   >
                      {session.user?.image ? (
-                        <img
+                        <Image
+                           width="100%"
+                           height="100%"
                            src={session.user?.image}
                            alt={session.user?.name}
-                           tw="object-cover w-full h-full"
                         />
                      ) : (
                         get_initials(session.user?.name)
