@@ -6,8 +6,9 @@ import { useSubscription } from '@apollo/client'
 
 import { ILink } from '../../interfaces'
 import { SUBSCRIPTIONS } from '../../graphql'
-import { Layout, Loader, Link } from '../../components'
 import { Links } from '../../components/links'
+import * as Illo from '../../assets/illustrations'
+import { Layout, Loader, Link } from '../../components'
 
 const Admin = () => {
    const router = useRouter()
@@ -36,7 +37,9 @@ const Admin = () => {
             ) : (
                <>
                   {links.length === 0 ? (
-                     'No Links Yet!'
+                     <div tw="w-full h-full flex justify-center pt-12">
+                        <Illo.Empty />
+                     </div>
                   ) : (
                      <Links>
                         {links.map((link: ILink) => (

@@ -5,8 +5,9 @@ import { Toggle } from './toggle'
 import { ILink } from '../interfaces'
 
 interface ILinksProps {
+   key: string
    link: ILink
-   update_link: (input: any) => void
+   update_link?: (input: any) => void
 }
 
 export const Link = ({ link, update_link }: ILinksProps) => {
@@ -20,7 +21,7 @@ export const Link = ({ link, update_link }: ILinksProps) => {
                id={link.id}
                is_active={link.is_active}
                on_change={() => {
-                  update_link({
+                  update_link?.({
                      variables: {
                         id: link.id,
                         _set: { is_active: !link.is_active },
