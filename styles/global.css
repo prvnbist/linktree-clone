@@ -4,3 +4,39 @@
    box-sizing: border-box;
    font-family: 'Inter', sans-serif;
 }
+
+.react-switch-checkbox {
+   height: 0;
+   width: 0;
+   visibility: hidden;
+}
+
+.react-switch-label {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   cursor: pointer;
+   width: 40px;
+   height: 24px;
+   background: grey;
+   border-radius: 24px;
+   position: relative;
+   transition: background-color 0.2s;
+}
+
+.react-switch-label .react-switch-button {
+   top: 2px;
+   left: 2px;
+   content: '';
+   width: 20px;
+   height: 20px;
+   position: absolute;
+   border-radius: 50%;
+   transition: 0.2s;
+   background: #fff;
+}
+
+.react-switch-checkbox:checked + .react-switch-label .react-switch-button {
+   left: calc(100% - 2px);
+   transform: translateX(-100%);
+}
