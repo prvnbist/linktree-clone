@@ -7,5 +7,5 @@ export interface ILink {
 }
 
 export interface ILinks {
-   children: React.ReactChild | React.ReactChildren
+   children: React.ReactChild[] | React.ReactChildren[]
 }
