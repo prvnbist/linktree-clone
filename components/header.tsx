@@ -1,7 +1,10 @@
 import tw from 'twin.macro'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
 import { signOut, useSession } from 'next-auth/client'
+
+import { Button } from './button'
 
 const get_initials = name =>
    name
@@ -37,15 +40,27 @@ export const Header = () => {
                         get_initials(session.user?.name)
                      )}
                   </span>
-                  <button
-                     onClick={() => signOut({ redirect: false })}
-                     tw="text-sm font-medium uppercase tracking-wider border border-red-300 rounded px-4 py-2 text-red-700 hover:(bg-red-200 text-red-900)"
-                  >
-                     Log Out
-                  </button>
+                  <Logout />
                </>
             )}
          </nav>
       </header>
+   )
+}
+
+const Logout = () => {
+   const [is_loading, set_is_loading] = useState(false)
+   return (
+      <Button
+         type="outline"
+         variant="danger"
+         is_loading={is_loading}
+         on_click={() => {
+            set_is_loading(true)
+            signOut({ redirect: false })
+         }}
+      >
+         Log Out
+      </Button>
    )
 }

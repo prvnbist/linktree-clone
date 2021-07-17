@@ -30,7 +30,9 @@ const Admin = () => {
       <Layout>
          <main tw="p-3">
             {loading || loading_links ? (
-               <Loader />
+               <div tw="w-full flex justify-center">
+                  <Loader color="#2563eb" />
+               </div>
             ) : (
                <>
                   {links.length === 0 ? (

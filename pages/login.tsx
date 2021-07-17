@@ -1,10 +1,10 @@
 import tw from 'twin.macro'
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
+import { useEffect, useState } from 'react'
 import { getProviders, signIn, useSession } from 'next-auth/client'
 
-import { Layout, Loader } from '../components'
+import { Button, Layout, Loader } from '../components'
 
 interface ILogin {
    providers: {
@@ -32,7 +32,7 @@ const Login = ({ providers }: ILogin) => {
       <Layout>
          <main tw="pt-12 flex justify-center">
             {loading ? (
-               <Loader />
+               <Loader color="#2563eb" />
             ) : (
                <div tw="bg-white rounded shadow-lg p-12">
                   <h2 tw="text-xl">
@@ -45,14 +45,7 @@ const Login = ({ providers }: ILogin) => {
                         <p tw="text-gray-400 mt-2 mb-6">
                            *This is a link tree clone.
                         </p>
-                        {providers?.google?.id && (
-                           <button
-                              tw="w-full bg-blue-600 text-white rounded p-3"
-                              onClick={() => signIn(providers.google.id)}
-                           >
-                              Sign In with Google
-                           </button>
-                        )}
+                        {providers?.google?.id && <WithGoogle />}
                      </>
                   )}
                </div>
@@ -63,6 +56,23 @@ const Login = ({ providers }: ILogin) => {
 }
 
 export default Login
+
+const WithGoogle = () => {
+   const [is_loading, set_is_loading] = useState(false)
+   return (
+      <Button
+         type="solid"
+         variant="primary"
+         is_loading={is_loading}
+         on_click={() => {
+            set_is_loading(true)
+            signIn('google')
+         }}
+      >
+         Sign In with Google
+      </Button>
+   )
+}
 
 export const getServerSideProps: GetServerSideProps = async () => {
    const providers = await getProviders()
