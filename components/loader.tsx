@@ -1,63 +1,55 @@
 import React from 'react'
-import { styled } from 'twin.macro'
-import { keyframes } from '@stitches/react'
+import { styled } from '@stitches/react'
 
-export const Loader = () => {
+interface ILoader {
+   color?: string
+}
+
+export const Loader = ({ color = 'blue' }: ILoader) => {
    return (
-      <Styles.Loader>
-         <div />
-         <div />
-         <div />
-         <div />
-         <div />
-         <div />
-         <div />
-         <div />
+      <Styles.Loader
+         id="L4"
+         x="0px"
+         y="0px"
+         version="1.1"
+         viewBox="0 0 40 8"
+         enableBackground="new 0 0 0 0"
+         xmlns="http://www.w3.org/2000/svg"
+      >
+         <circle fill={color} stroke="none" cx="4" cy="4" r="4">
+            <animate
+               dur="1s"
+               begin="0.1"
+               values="0;1;0"
+               attributeName="opacity"
+               repeatCount="indefinite"
+            />
+         </circle>
+         <circle fill={color} stroke="none" cx="20" cy="4" r="4">
+            <animate
+               dur="1s"
+               begin="0.2"
+               values="0;1;0"
+               repeatCount="indefinite"
+               attributeName="opacity"
+            />
+         </circle>
+         <circle fill={color} stroke="none" cx="36" cy="4" r="4">
+            <animate
+               dur="1s"
+               begin="0.3"
+               values="0;1;0"
+               repeatCount="indefinite"
+               attributeName="opacity"
+            />
+         </circle>
       </Styles.Loader>
    )
 }
 
-const revolve = keyframes({
-   '0%': { transform: 'rotate(0deg)' },
-   '100%': { transform: 'rotate(360deg)' },
-})
-
 const Styles = {
-   Loader: styled('div', {
-      display: 'inline-block',
-      position: 'relative',
-      width: '48px',
-      height: '48px',
-      transform: 'scale(0.6)',
-      div: {
-         animation: `${revolve} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite`,
-         transformOrigin: '40px 40px',
-      },
-      'div:after': {
-         content: ' ',
-         display: 'block',
-         position: 'absolute',
-         width: '7px',
-         height: '7px',
-         borderRadius: '50%',
-         background: '#9391fd',
-         margin: '-4px 0 0 -4px',
-      },
-      'div:nth-child(1)': { animationDelay: '-0.036s' },
-      'div:nth-child(1):after': { top: '63px', left: '63px' },
-      'div:nth-child(2)': { animationDelay: '-0.072s' },
-      'div:nth-child(2):after': { top: '68px', left: '56px' },
-      'div:nth-child(3)': { animationDelay: '-0.108s' },
-      'div:nth-child(3):after': { top: '71px', left: '48px' },
-      'div:nth-child(4)': { animationDelay: '-0.144s' },
-      'div:nth-child(4):after': { top: '72px', left: '40px' },
-      'div:nth-child(5)': { animationDelay: '-0.18s' },
-      'div:nth-child(5):after': { top: '71px', left: '32px' },
-      'div:nth-child(6)': { animationDelay: '-0.216s' },
-      'div:nth-child(6):after': { top: '68px', left: '24px' },
-      'div:nth-child(7)': { animationDelay: '-0.252s' },
-      'div:nth-child(7):after': { top: '63px', left: '17px' },
-      'div:nth-child(8)': { animationDelay: '-0.288s' },
-      'div:nth-child(8):after': { top: '56px', left: '12px' },
+   Loader: styled('svg', {
+      width: '40x',
+      height: '8px',
    }),
 }
