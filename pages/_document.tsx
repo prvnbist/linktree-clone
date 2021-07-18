@@ -1,39 +1,23 @@
-import * as React from 'react'
-import NextDocument, {
-   Html,
-   Head,
-   Main,
-   NextScript,
-   DocumentContext,
-} from 'next/document'
-import { getCssString } from '../stitches.config'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { extractCritical } from '@emotion/server'
 
-export default class Document extends NextDocument {
-   static async getInitialProps(ctx: DocumentContext) {
-      try {
-         const initialProps = await NextDocument.getInitialProps(ctx)
-
-         return {
-            ...initialProps,
-            styles: (
-               <>
-                  {initialProps.styles}
-                  {/* Stitches CSS for SSR */}
-                  <style
-                     id="stitches"
-                     dangerouslySetInnerHTML={{ __html: getCssString() }}
-                  />
-               </>
-            ),
-         }
-      } finally {
-      }
+export default class MyDocument extends Document {
+   static async getInitialProps(ctx) {
+      const initialProps = await Document.getInitialProps(ctx)
+      const page = await ctx.renderPage()
+      const styles = extractCritical(page.html)
+      return { ...initialProps, ...page, ...styles }
    }
 
    render() {
       return (
          <Html lang="en">
-            <Head />
+            <Head>
+               <style
+                  data-emotion-css={this.props.ids.join(' ')}
+                  dangerouslySetInnerHTML={{ __html: this.props.css }}
+               />
+            </Head>
             <body>
                <Main />
                <NextScript />

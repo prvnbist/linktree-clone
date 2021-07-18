@@ -16,10 +16,10 @@
    align-items: center;
    justify-content: space-between;
    cursor: pointer;
-   width: 40px;
-   height: 24px;
+   width: 28px;
+   height: 16px;
    background: grey;
-   border-radius: 24px;
+   border-radius: 16px;
    position: relative;
    transition: background-color 0.2s;
 }
@@ -28,8 +28,8 @@
    top: 2px;
    left: 2px;
    content: '';
-   width: 20px;
-   height: 20px;
+   width: 12px;
+   height: 12px;
    position: absolute;
    border-radius: 50%;
    transition: 0.2s;

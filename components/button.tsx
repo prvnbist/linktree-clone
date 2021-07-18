@@ -1,6 +1,5 @@
 import React from 'react'
-import tw from 'twin.macro'
-import { styled } from '@stitches/react'
+import tw, { css, styled } from 'twin.macro'
 
 import { Loader } from './loader'
 
@@ -40,34 +39,26 @@ export const Button = ({
 }
 
 const Styles = {
-   Button: styled('button', {
-      ...tw`relative rounded px-6 h-10`,
-      variants: {
-         is_loading: {
-            true: tw`cursor-not-allowed`,
-         },
-         type: {
-            solid: tw``,
-            outline: tw`border`,
-         },
-         variant: {
-            primary: tw`bg-blue-600`,
-            danger: tw`border-red-400`,
-         },
-      },
-   }),
-   Children: styled('span', {
-      variants: {
-         is_loading: { true: tw`opacity-0` },
-         variant: {
-            primary: tw`text-white`,
-            danger: tw`text-red-700`,
-         },
-      },
-   }),
-   Loader: styled('span', {
-      position: 'absolute',
-      left: 'calc(50% - 24px)',
-      top: 'calc(50% - 4px)',
-   }),
+   Button: styled.button(
+      ({ is_loading, type, variant }) => css`
+         ${tw`relative rounded px-6 h-10`};
+         ${is_loading && tw`cursor-not-allowed`};
+         ${type === 'solid' && tw``};
+         ${type === 'outline' && tw`border`};
+         ${variant === 'primary' && tw`bg-blue-600`};
+         ${variant === 'danger' && tw`border-red-400`};
+      `
+   ),
+   Children: styled.span(
+      ({ is_loading, variant }) => css`
+         ${is_loading && tw`opacity-0`}
+         ${variant === 'primary' && tw`text-white`}
+      ${variant === 'danger' && tw`text-red-700`}
+      `
+   ),
+   Loader: styled.span(`
+      position: absolute;
+      left: calc(50% - 24px);
+      top: calc(50% - 4px)
+   `),
 }

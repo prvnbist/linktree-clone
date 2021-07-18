@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled } from '@stitches/react'
+import { css, styled } from 'twin.macro'
 
 interface ILoader {
    color?: string
@@ -48,8 +48,8 @@ export const Loader = ({ color = 'blue' }: ILoader) => {
 }
 
 const Styles = {
-   Loader: styled('svg', {
-      width: '40x',
-      height: '8px',
-   }),
+   Loader: styled.svg(css`
+      width: 40x;
+      height: 8px;
+   `),
 }
