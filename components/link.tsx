@@ -1,16 +1,17 @@
 import tw from 'twin.macro'
-import { useState } from 'react'
 
 import { Toggle } from './toggle'
 import { ILink } from '../interfaces'
+import * as Icon from '../assets/icons'
 
 interface ILinksProps {
    key: string
    link: ILink
    update_link?: (input: any) => void
+   delete_link: (input: any) => void
 }
 
-export const Link = ({ link, update_link }: ILinksProps) => {
+export const Link = ({ link, update_link, delete_link }: ILinksProps) => {
    return (
       <li
          key={link.id}
@@ -34,6 +35,15 @@ export const Link = ({ link, update_link }: ILinksProps) => {
             <h3 tw="text-lg font-medium text-gray-600">{link.title}</h3>
             <p tw="text-gray-500">{link.url}</p>
          </main>
+         <aside tw="ml-auto">
+            <button
+               title="Delete Link"
+               onClick={() => delete_link({ variables: { id: link.id } })}
+               tw="rounded h-10 w-10 flex items-center justify-center hover:(bg-red-100)"
+            >
+               <Icon.Delete size={18} tw="stroke-current text-red-700" />
+            </button>
+         </aside>
       </li>
    )
 }

@@ -26,5 +26,12 @@ export const MUTATIONS = {
             }
          }
       `,
+      DELETE: gql`
+         mutation delete_link($id: uuid!) {
+            delete_link: delete_links_link_by_pk(id: $id) {
+               id
+            }
+         }
+      `,
    },
 }

@@ -19,13 +19,33 @@ export const Links = ({ children }: ILinks) => {
          })
       },
    })
+   const [delete_link] = useMutation(MUTATIONS.LINK.DELETE, {
+      onCompleted: () => {
+         addToast('Successfully deleted the link!', {
+            appearance: 'success',
+         })
+      },
+      onError: () => {
+         addToast('Failed to delete the link, please try again!', {
+            appearance: 'error',
+         })
+      },
+   })
+
    return (
       <ul tw="space-y-3">
          {children.length === 1
-            ? { ...children, props: { update_link, ...children.props } }
+            ? {
+                 ...children,
+                 props: {
+                    update_link,
+                    delete_link,
+                    ...children.props,
+                 },
+              }
             : children.map(node => ({
                  ...node,
-                 props: { update_link, ...node.props },
+                 props: { update_link, delete_link, ...node.props },
               }))}
       </ul>
    )
