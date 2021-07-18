@@ -4,10 +4,11 @@ import tw, { css, styled } from 'twin.macro'
 import { Loader } from './loader'
 
 interface IButton {
+   disabled: boolean
    is_loading?: boolean
    type: 'solid' | 'outline'
    variant: 'primary' | 'danger'
-   children: React.ReactNode[] | React.ReactChildren[]
+   children: React.ReactNode | React.ReactChildren
    on_click: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -15,6 +16,7 @@ export const Button = ({
    on_click,
    children,
    type = 'solid',
+   disabled = false,
    is_loading = false,
    variant = 'primary',
 }: IButton) => {
@@ -23,8 +25,8 @@ export const Button = ({
          type={type}
          variant={variant}
          onClick={on_click}
-         disabled={is_loading}
          is_loading={is_loading}
+         disabled={is_loading || disabled}
       >
          <Styles.Children is_loading={is_loading} variant={variant}>
             {children}
@@ -40,13 +42,17 @@ export const Button = ({
 
 const Styles = {
    Button: styled.button(
-      ({ is_loading, type, variant }) => css`
+      ({ type, variant }) => css`
          ${tw`relative rounded px-6 h-10`};
-         ${is_loading && tw`cursor-not-allowed`};
          ${type === 'solid' && tw``};
          ${type === 'outline' && tw`border`};
          ${variant === 'primary' && tw`bg-blue-600`};
          ${variant === 'danger' && tw`border-red-400`};
+         &[disabled] {
+            ${tw`cursor-not-allowed`}
+            ${variant === 'primary' && tw`bg-blue-400`};
+            ${variant === 'danger' && tw`bg-red-300`};
+         }
       `
    ),
    Children: styled.span(

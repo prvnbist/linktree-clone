@@ -271,8 +271,8 @@ export const Empty = () => {
                gradientUnits="userSpaceOnUse"
             >
                <stop stopColor="gray" stopOpacity=".25" />
-               <stop offset=".54" stopColor="gray" stopPpacity=".12" />
-               <stop offset="1" stopColor="gray" stopPpacity=".1" />
+               <stop offset=".54" stopColor="gray" stopOpacity=".12" />
+               <stop offset="1" stopColor="gray" stopOpacity=".1" />
             </linearGradient>
             <clipPath id="clip0">
                <path fill="#fff" d="M0 0h333v261H0z" />

@@ -33,5 +33,12 @@ export const MUTATIONS = {
             }
          }
       `,
+      INSERT: gql`
+         mutation create_link($object: links_link_insert_input!) {
+            create_link: insert_links_link_one(object: $object) {
+               id
+            }
+         }
+      `,
    },
 }

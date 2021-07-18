@@ -5,10 +5,11 @@ import { useSession } from 'next-auth/client'
 import { useSubscription } from '@apollo/client'
 
 import { ILink } from '../../interfaces'
+import { LinkProvider } from '../../hooks'
 import { SUBSCRIPTIONS } from '../../graphql'
 import { Links } from '../../components/links'
 import * as Illo from '../../assets/illustrations'
-import { Layout, Loader, Link } from '../../components'
+import { Layout, Loader, Link, LinkForm } from '../../components'
 
 const Admin = () => {
    const router = useRouter()
@@ -29,27 +30,30 @@ const Admin = () => {
 
    return (
       <Layout>
-         <main tw="p-3">
-            {loading || loading_links ? (
-               <div tw="w-full flex justify-center">
-                  <Loader color="#2563eb" />
-               </div>
-            ) : (
-               <>
-                  {links.length === 0 ? (
-                     <div tw="w-full h-full flex justify-center pt-12">
-                        <Illo.Empty />
-                     </div>
-                  ) : (
-                     <Links>
-                        {links.map((link: ILink) => (
-                           <Link key={link.id} link={link} />
-                        ))}
-                     </Links>
-                  )}
-               </>
-            )}
-         </main>
+         <LinkProvider>
+            <main tw="p-3">
+               <LinkForm />
+               {loading || loading_links ? (
+                  <div tw="mt-4 w-full flex justify-center">
+                     <Loader color="#2563eb" />
+                  </div>
+               ) : (
+                  <>
+                     {links.length === 0 ? (
+                        <div tw="mt-4 w-full h-full flex justify-center pt-12">
+                           <Illo.Empty />
+                        </div>
+                     ) : (
+                        <Links>
+                           {links.map((link: ILink) => (
+                              <Link key={link.id} link={link} />
+                           ))}
+                        </Links>
+                     )}
+                  </>
+               )}
+            </main>
+         </LinkProvider>
       </Layout>
    )
 }

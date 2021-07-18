@@ -12,6 +12,21 @@ interface ILinkProvider {
 
 export const LinkProvider = ({ children }: ILinkProvider) => {
    const { addToast } = useToasts()
+   const [insert_link, { loading: inserting }] = useMutation(
+      MUTATIONS.LINK.INSERT,
+      {
+         onCompleted: () => {
+            addToast('Successfully created the link!', {
+               appearance: 'success',
+            })
+         },
+         onError: () => {
+            addToast('Failed to create the link, please try again!', {
+               appearance: 'error',
+            })
+         },
+      }
+   )
    const [update_link] = useMutation(MUTATIONS.LINK.UPDATE, {
       onCompleted: () => {
          addToast('Successfully updated the link!', {
@@ -37,7 +52,9 @@ export const LinkProvider = ({ children }: ILinkProvider) => {
       },
    })
    return (
-      <Context.Provider value={{ update_link, delete_link }}>
+      <Context.Provider
+         value={{ inserting, insert_link, update_link, delete_link }}
+      >
          {children}
       </Context.Provider>
    )
