@@ -16,7 +16,7 @@ export const LinkForm = () => {
    const { insert_link, inserting } = useLink()
    const [form, setForm] = useState({ title: '', url: '' })
 
-   const on_change = e => {
+   const on_change = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
       setForm({ ...form, [name]: value })
    }
@@ -64,15 +64,15 @@ export const LinkForm = () => {
                tw="h-10 border border-gray-300 rounded px-3"
             />
          </fieldset>
-         <Button
-            type="solid"
-            variant="primary"
+         <Button.Text
+            variant="solid"
+            color="primary"
             on_click={submit}
             is_loading={inserting}
-            disabled={!form.title || !form.url || !is_valid_url(form.url)}
+            is_disabled={!form.title || !form.url || !is_valid_url(form.url)}
          >
             Create Link
-         </Button>
+         </Button.Text>
       </section>
    )
 }

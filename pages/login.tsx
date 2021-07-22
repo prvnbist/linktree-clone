@@ -60,9 +60,9 @@ export default Login
 const WithGoogle = () => {
    const [is_loading, set_is_loading] = useState(false)
    return (
-      <Button
-         type="solid"
-         variant="primary"
+      <Button.Text
+         variant="solid"
+         color="primary"
          is_loading={is_loading}
          on_click={() => {
             set_is_loading(true)
@@ -70,7 +70,7 @@ const WithGoogle = () => {
          }}
       >
          Sign In with Google
-      </Button>
+      </Button.Text>
    )
 }
 

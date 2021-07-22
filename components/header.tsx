@@ -6,7 +6,7 @@ import { signOut, useSession } from 'next-auth/client'
 
 import { Button } from './button'
 
-const get_initials = name =>
+const get_initials = (name: string): string =>
    name
       .replace(/[^a-zA-Z- ]/g, '')
       .match(/\b\w/g)
@@ -26,7 +26,7 @@ export const Header = () => {
             {!loading && session?.user?.email && (
                <>
                   <span
-                     title={session.user?.name}
+                     title={session.user?.name || ''}
                      tw="overflow-hidden flex items-center justify-center h-10 w-10 bg-green-300 text-black rounded-full"
                   >
                      {session.user?.image ? (
@@ -34,10 +34,10 @@ export const Header = () => {
                            width="100%"
                            height="100%"
                            src={session.user?.image}
-                           alt={session.user?.name}
+                           alt={session.user?.name || ''}
                         />
                      ) : (
-                        get_initials(session.user?.name)
+                        get_initials(session.user?.name || '')
                      )}
                   </span>
                   <Logout />
@@ -51,9 +51,9 @@ export const Header = () => {
 const Logout = () => {
    const [is_loading, set_is_loading] = useState(false)
    return (
-      <Button
-         type="outline"
-         variant="danger"
+      <Button.Text
+         variant="outline"
+         color="danger"
          is_loading={is_loading}
          on_click={() => {
             set_is_loading(true)
@@ -61,6 +61,6 @@ const Logout = () => {
          }}
       >
          Log Out
-      </Button>
+      </Button.Text>
    )
 }
