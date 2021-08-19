@@ -38,7 +38,7 @@ const UserLinks = () => {
          </div>
       )
    if (status === 'ERROR') return <p>Error loading user</p>
-   if (status !== 'NOT_FOUND')
+   if (status === 'NOT_FOUND')
       return (
          <div tw="pt-16 h-screen w-full flex flex-col items-center">
             <Illo.Empty />
