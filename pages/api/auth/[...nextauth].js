@@ -1,5 +1,12 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
+import { GraphQLClient } from 'graphql-request'
+
+const client = new GraphQLClient(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT, {
+   headers: {
+      'x-hasura-admin-secret': process.env.NEXT_PUBLIC_GRAPHQL_SECRET,
+   },
+})
 
 export default NextAuth({
    providers: [
@@ -24,8 +31,34 @@ export default NextAuth({
    },
    callbacks: {
       async session(session, token) {
-         session.user.id = token.id
-         return session
+         try {
+            session.user.id = token.id
+
+            const { user = {} } = await client.request(USER, { id: token.id })
+
+            if (user.id) {
+               session.user = {
+                  ...session.user,
+                  ...user,
+               }
+            }
+
+            return session
+         } catch (error) {
+            console.log(error)
+            return {}
+         }
       },
    },
 })
+
+const USER = `
+   query user($id: String!) {
+      user: users_by_pk(id: $id) {
+         id
+         name
+         email
+         username
+      }
+   }
+`

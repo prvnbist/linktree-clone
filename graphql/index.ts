@@ -12,6 +12,28 @@ export const SUBSCRIPTIONS = {
          }
       }
    `,
+   USER: gql`
+      subscription user($id: String!) {
+         user: users_by_pk(id: $id) {
+            id
+            name
+            email
+            username
+         }
+      }
+   `,
+}
+
+export const QUERIES = {
+   USERS: gql`
+      query users($where: users_bool_exp = {}) {
+         users: users_aggregate(where: $where) {
+            aggregate {
+               count(columns: id)
+            }
+         }
+      }
+   `,
 }
 
 export const MUTATIONS = {
@@ -36,6 +58,18 @@ export const MUTATIONS = {
       INSERT: gql`
          mutation create_link($object: links_link_insert_input!) {
             create_link: insert_links_link_one(object: $object) {
+               id
+            }
+         }
+      `,
+   },
+   USER: {
+      UPDATE: gql`
+         mutation update_user($id: String!, $_set: users_set_input = {}) {
+            update_user: update_users_by_pk(
+               pk_columns: { id: $id }
+               _set: $_set
+            ) {
                id
             }
          }

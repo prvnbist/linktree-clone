@@ -2,6 +2,7 @@ import tw from 'twin.macro'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { signOut, useSession } from 'next-auth/client'
 
 import { Button } from './button'
@@ -13,6 +14,7 @@ const get_initials = (name: string): string =>
       .join('') || ''
 
 export const Header = () => {
+   const router = useRouter()
    const [session, loading] = useSession()
 
    return (
@@ -25,21 +27,23 @@ export const Header = () => {
          <nav tw="flex gap-3">
             {!loading && session?.user?.email && (
                <>
-                  <span
-                     title={session.user?.name || ''}
-                     tw="overflow-hidden flex items-center justify-center h-10 w-10 bg-green-300 text-black rounded-full"
-                  >
-                     {session.user?.image ? (
-                        <Image
-                           width="100%"
-                           height="100%"
-                           src={session.user?.image}
-                           alt={session.user?.name || ''}
-                        />
-                     ) : (
-                        get_initials(session.user?.name || '')
-                     )}
-                  </span>
+                  <button onClick={() => router.push('/account')}>
+                     <span
+                        title={session.user?.name || ''}
+                        tw="overflow-hidden flex items-center justify-center h-10 w-10 bg-green-300 text-black rounded-full"
+                     >
+                        {session.user?.image ? (
+                           <Image
+                              width="100%"
+                              height="100%"
+                              src={session.user?.image}
+                              alt={session.user?.name || ''}
+                           />
+                        ) : (
+                           get_initials(session.user?.name || '')
+                        )}
+                     </span>
+                  </button>
                   <Logout />
                </>
             )}

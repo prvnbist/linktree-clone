@@ -146,11 +146,11 @@ const variant_selector = (variant: string, color: string) => {
       case 'solid':
          return css`
             &[disabled] {
-               ${color === 'primary' && tw`bg-indigo-500 text-white`};
-               ${color === 'secondary' && tw`bg-gray-600 text-white`};
-               ${color === 'success' && tw`bg-green-500 text-white`};
-               ${color === 'danger' && tw`bg-red-400 text-white`};
-               ${color === 'warning' && tw`bg-yellow-400 text-white`};
+               ${color === 'primary' && tw`bg-indigo-400 text-white`};
+               ${color === 'secondary' && tw`bg-gray-500 text-white`};
+               ${color === 'success' && tw`bg-green-400 text-white`};
+               ${color === 'danger' && tw`bg-red-300 text-white`};
+               ${color === 'warning' && tw`bg-yellow-300 text-white`};
             }
             :not([disabled]) {
                ${color === 'primary' && tw`bg-indigo-600 text-white`};
