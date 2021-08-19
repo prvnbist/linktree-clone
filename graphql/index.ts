@@ -34,6 +34,23 @@ export const QUERIES = {
          }
       }
    `,
+   USER_BY_USERNAME: gql`
+      query users($username: String!) {
+         users(where: { username: { _eq: $username } }) {
+            id
+            name
+            image
+            links(
+               order_by: { created_at: desc }
+               where: { is_active: { _eq: true } }
+            ) {
+               id
+               url
+               title
+            }
+         }
+      }
+   `,
 }
 
 export const MUTATIONS = {
