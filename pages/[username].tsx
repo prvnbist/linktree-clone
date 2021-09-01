@@ -1,6 +1,6 @@
 import React from 'react'
-import tw from 'twin.macro'
 import Image from 'next/image'
+import tw, { styled } from 'twin.macro'
 import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
 
@@ -46,13 +46,16 @@ const UserLinks = () => {
          </div>
       )
    return (
-      <div tw="bg-gray-50 h-screen p-16 flex flex-col items-center">
+      <div
+         tw="bg-gray-50 h-screen p-16 flex flex-col items-center"
+         style={{ backgroundImage: "url('/pattern.svg')" }}
+      >
          {user?.image && (
             <section tw="relative flex-shrink-0 w-[100px] h-[100px] rounded-full overflow-hidden shadow-md">
                <Image layout="fill" src={user?.image} alt={user?.name || ''} />
             </section>
          )}
-         <h1 tw="mt-3 mb-6 text-lg">{user?.name}</h1>
+         <h1 tw="mt-3 mb-6 text-white text-lg">{user?.name}</h1>
          {user?.links?.length > 0 && (
             <ul tw="space-y-3 w-full flex flex-col items-center">
                {user?.links?.map(link => (
@@ -73,15 +76,33 @@ interface ILinkButton {
 const LinkButton = ({ link = {} }: ILinkButton) => {
    return (
       <li tw="list-none h-10 w-full md:w-[380px]">
-         <a
+         <Button
             href={link.url}
             target="_blank"
             title={link.title}
             rel="noopener noreferrer"
-            tw="h-full w-full bg-indigo-700 text-white flex items-center justify-center rounded"
          >
             {link.title}
-         </a>
+         </Button>
       </li>
    )
 }
+
+const Button = styled.a`
+   ${tw`overflow-hidden relative h-full w-full border border-white text-white flex items-center justify-center`}
+   &::after {
+      background: #fff;
+      content: '';
+      height: 155px;
+      left: -125px;
+      position: absolute;
+      top: -50px;
+      transform: rotate(45deg);
+      transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+      width: 80px;
+   }
+   &:hover::after {
+      left: 120%;
+      transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+   }
+`
