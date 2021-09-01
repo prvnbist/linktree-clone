@@ -36,6 +36,14 @@ export default NextAuth({
 
             const { user = {} } = await client.request(USER, { id: token.id })
 
+            if (!user.username) {
+               const username = user.email.match(/[^@]*/i)[0]
+               await client.request(UPDATE_USER, {
+                  id: user.id,
+                  _set: { username },
+               })
+            }
+
             if (user.id) {
                session.user = {
                   ...session.user,
@@ -59,6 +67,14 @@ const USER = `
          name
          email
          username
+      }
+   }
+`
+
+const UPDATE_USER = `
+   mutation update_user($id: String!, $_set: users_set_input = {}) {
+      update_user: update_users_by_pk(pk_columns: { id: $id }, _set: $_set) {
+         id
       }
    }
 `
