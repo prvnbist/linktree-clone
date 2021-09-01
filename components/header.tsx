@@ -18,7 +18,7 @@ export const Header = () => {
    const [session, loading] = useSession()
 
    return (
-      <header tw="bg-white w-full h-16 flex justify-between items-center px-3 border-b border-gray-300">
+      <header tw="flex-shrink-0 z-10 sticky top-0 bg-white w-full h-16 flex justify-between items-center px-3 border-b border-gray-300">
          <Link href="/">
             <a tw="cursor-pointer text-lg font-medium text-gray-700">
                Link Tree Clone
