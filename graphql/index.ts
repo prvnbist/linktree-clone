@@ -3,10 +3,11 @@ import { gql } from '@apollo/client'
 export const SUBSCRIPTIONS = {
    LINKS: gql`
       subscription links($where: links_link_bool_exp = {}) {
-         links: links_link(where: $where, order_by: { created_at: desc }) {
+         links: links_link(where: $where, order_by: { priority: asc }) {
             id
             url
             title
+            priority
             is_active
             created_at
          }
@@ -41,7 +42,7 @@ export const QUERIES = {
             name
             image
             links(
-               order_by: { created_at: desc }
+               order_by: { priority: asc }
                where: { is_active: { _eq: true } }
             ) {
                id
