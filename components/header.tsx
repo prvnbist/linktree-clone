@@ -11,7 +11,7 @@ const get_initials = (name: string): string =>
    name
       .replace(/[^a-zA-Z- ]/g, '')
       .match(/\b\w/g)
-      .join('') || ''
+      ?.join('') || ''
 
 export const Header = () => {
    const router = useRouter()

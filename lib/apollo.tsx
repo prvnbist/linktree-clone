@@ -14,15 +14,18 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 const wssLink = process.browser
    ? new WebSocketLink(
-        new SubscriptionClient(process.env.NEXT_PUBLIC_GRAPHQL_WSS_ENDPOINT, {
-           reconnect: true,
-           connectionParams: {
-              headers: {
-                 'x-hasura-admin-secret':
-                    process.env.NEXT_PUBLIC_GRAPHQL_SECRET,
+        new SubscriptionClient(
+           process.env.NEXT_PUBLIC_GRAPHQL_WSS_ENDPOINT || '',
+           {
+              reconnect: true,
+              connectionParams: {
+                 headers: {
+                    'x-hasura-admin-secret':
+                       process.env.NEXT_PUBLIC_GRAPHQL_SECRET,
+                 },
               },
-           },
-        })
+           }
+        )
      )
    : null
 

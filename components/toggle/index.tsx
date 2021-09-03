@@ -18,7 +18,7 @@ export const Toggle = ({ id, is_active, on_change }: IToggle) => {
             htmlFor={id}
             className="react-switch-label"
             title={is_active ? 'Hide' : 'Show'}
-            style={{ background: is_active && '#06D6A0' }}
+            style={{ ...(is_active && { background: '#06D6A0' }) }}
          >
             <span className="react-switch-button" />
          </label>

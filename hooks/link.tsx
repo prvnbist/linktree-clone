@@ -4,7 +4,7 @@ import { useToasts } from 'react-toast-notifications'
 
 import { MUTATIONS } from '../graphql'
 
-const Context = React.createContext({})
+const Context = React.createContext({} as IUseLink)
 
 interface ILinkProvider {
    children: React.ReactChild | React.ReactChildren
@@ -60,4 +60,11 @@ export const LinkProvider = ({ children }: ILinkProvider) => {
    )
 }
 
-export const useLink = () => React.useContext(Context)
+interface IUseLink {
+   inserting: boolean
+   update_link: (input: any) => void
+   delete_link: (input: any) => void
+   insert_link: (input: any) => void
+}
+
+export const useLink = (): IUseLink => React.useContext(Context)

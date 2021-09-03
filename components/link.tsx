@@ -6,13 +6,15 @@ import { useLink } from '../hooks'
 import { ILink } from '../interfaces'
 import * as Icon from '../assets/icons'
 
-interface ILinksProps {
+interface ILinkProps {
    link: ILink
+   handle_props: any
+   is_dragging: boolean
 }
 
 // eslint-disable-next-line react/display-name
 export const Link = React.forwardRef(
-   ({ link, handle_props, is_dragging, ...props }: ILinksProps, ref) => {
+   ({ link, handle_props, is_dragging, ...props }: ILinkProps, ref) => {
       const { update_link, delete_link } = useLink()
       return (
          <li

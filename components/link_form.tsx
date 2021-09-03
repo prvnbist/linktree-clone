@@ -21,8 +21,8 @@ export const LinkForm = () => {
       setForm({ ...form, [name]: value })
    }
 
-   const submit = async () => {
-      await insert_link({
+   const submit = () => {
+      insert_link({
          variables: {
             object: {
                url: form.url,

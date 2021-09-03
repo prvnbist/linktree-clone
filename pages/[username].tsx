@@ -16,7 +16,8 @@ const UserLinks = () => {
 
    useQuery(QUERIES.USER_BY_USERNAME, {
       variables: { username },
-      onCompleted: ({ users = [] } = {}) => {
+      onCompleted: result => {
+         const { users = [] } = result
          if (users.length === 0) {
             setStatus('NOT_FOUND')
             return

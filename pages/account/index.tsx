@@ -33,20 +33,16 @@ const Account = () => {
       }
    )
 
-   useSubscription(SUBSCRIPTIONS.USER, {
+   const { error: userError } = useSubscription(SUBSCRIPTIONS.USER, {
       skip: loading || !session?.user?.id,
       variables: { id: session?.user?.id },
-      onSubscriptionData: ({
-         subscriptionData: { data: { user = {} } = {} } = {},
-      } = {}) => {
+      onSubscriptionData: result => {
+         const { user = {} } = result.subscriptionData.data
          if (user?.id) {
             setForm({
                name: user.name || '',
             })
          }
-         setUserLoading(false)
-      },
-      onError: () => {
          setUserLoading(false)
       },
    })
@@ -55,7 +51,7 @@ const Account = () => {
       if (!loading && !session?.user?.id) {
          router.push('/login')
       }
-   }, [session, loading])
+   }, [router, session, loading])
 
    const on_change = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
@@ -64,6 +60,10 @@ const Account = () => {
 
    const onSave = async () => {
       updateUser({ variables: { _set: form, id: session?.user?.id } })
+   }
+
+   if (userError) {
+      setUserLoading(false)
    }
 
    return (
