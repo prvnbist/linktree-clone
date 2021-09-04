@@ -53,8 +53,8 @@ export const Link = React.forwardRef(
                      {link.url}
                   </p>
                </section>
-               <aside tw="mt-3 md:mt-0 self-start flex gap-3">
-                  <aside tw="flex flex-shrink-0 md:hidden items-center">
+               <aside tw="md:justify-end w-full items-center mt-3 md:mt-0 flex gap-2">
+                  <aside tw="flex items-center flex-shrink-0 md:hidden">
                      <Toggle
                         id={link.id}
                         is_active={link.is_active}
@@ -68,10 +68,21 @@ export const Link = React.forwardRef(
                         }}
                      />
                   </aside>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer">
+                     <button
+                        title="View Link"
+                        tw="rounded w-8 h-8 flex items-center justify-center hover:(bg-gray-100)"
+                     >
+                        <Icon.Goto
+                           size={18}
+                           tw="stroke-current text-gray-700"
+                        />
+                     </button>
+                  </a>
                   <button
                      title="Delete Link"
                      onClick={() => delete_link({ variables: { id: link.id } })}
-                     tw="rounded w-8 h-8 md:h-10 md:w-10 flex items-center justify-center hover:(bg-red-100)"
+                     tw="rounded w-8 h-8 flex items-center justify-center hover:(bg-red-100)"
                   >
                      <Icon.Delete size={18} tw="stroke-current text-red-700" />
                   </button>
