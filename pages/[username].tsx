@@ -21,7 +21,6 @@ interface IUserLinks {
 }
 
 const UserLinks = ({ status = 'LOADING', user }: IUserLinks) => {
-   console.log(status)
    const parsed = user && JSON.parse(user)
 
    if (status === 'LOADING')

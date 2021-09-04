@@ -1,8 +1,8 @@
 import tw from 'twin.macro'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/client'
 import { useToasts } from 'react-toast-notifications'
+import { useCallback, useState, useEffect } from 'react'
 import { useMutation, useSubscription } from '@apollo/client'
 import {
    Droppable,
@@ -49,52 +49,77 @@ const Admin = () => {
       }
    }, [router, session, loading])
 
-   const onDragEnd = (reordered: DropResult) => {
-      if (!reordered.destination) return
+   const onDragEnd = useCallback(
+      (reordered: DropResult) => {
+         if (!reordered.destination) return
 
-      const source_index = reordered.source.index
-      const destination_index = reordered.destination.index
+         const source_index = reordered.source.index
+         const destination_index = reordered.destination.index
 
-      if (source_index === destination_index) return
+         if (source_index === destination_index) return
 
-      const source_link = links[source_index]
-      const dest_link = links[destination_index]
+         const source_link = links[source_index]
+         const dest_link = links[destination_index]
 
-      let new_priority = 0
+         let new_priority = 0
 
-      if (destination_index === 0) {
-         const [first_link] = links
-         new_priority = first_link.priority / 2
-      } else if (destination_index === links.length - 1) {
-         new_priority = links[destination_index - 1].priority + 10000
-      } else {
-         new_priority =
-            source_index > destination_index
-               ? (links[destination_index - 1].priority + dest_link.priority) /
-                 2
-               : (links[destination_index + 1].priority + dest_link.priority) /
-                 2
-      }
+         if (destination_index === 0) {
+            const [first_link] = links
+            new_priority = first_link.priority / 2
+         } else if (destination_index === links.length - 1) {
+            new_priority = links[destination_index - 1].priority + 10000
+         } else {
+            new_priority =
+               source_index > destination_index
+                  ? (links[destination_index - 1].priority +
+                       dest_link.priority) /
+                    2
+                  : (links[destination_index + 1].priority +
+                       dest_link.priority) /
+                    2
+         }
 
-      update_link({
-         variables: {
-            id: source_link.id,
-            _set: {
-               priority: Math.ceil(new_priority),
+         update_link({
+            variables: {
+               id: source_link.id,
+               _set: {
+                  priority: Math.ceil(new_priority),
+               },
             },
-         },
-      })
+         })
 
-      const items = links
-      const [item] = items.splice(reordered.source.index, 1)
-      items.splice(reordered.destination.index, 0, item)
-      setLinks(items)
-   }
+         const items = links
+         const [item] = items.splice(reordered.source.index, 1)
+         items.splice(reordered.destination.index, 0, item)
+         setLinks(items)
+      },
+      [links, update_link]
+   )
 
    return (
       <Layout>
          <LinkProvider>
             <main tw="overflow-hidden p-3">
+               {session?.user?.username && (
+                  <section tw="w-full text-right mb-3">
+                     My page:{' '}
+                     <a
+                        href={
+                           new URL(window?.location?.origin).origin +
+                           '/' +
+                           session?.user?.username
+                        }
+                        title="View Page"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        tw="text-indigo-500 underline"
+                     >
+                        {new URL(window?.location?.origin).origin +
+                           '/' +
+                           session?.user?.username}
+                     </a>
+                  </section>
+               )}
                <LinkForm />
                {loading || loading_links ? (
                   <div tw="mt-4 w-full flex justify-center">
