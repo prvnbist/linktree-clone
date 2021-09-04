@@ -58,7 +58,10 @@ const UserLinks = ({ status = 'LOADING', user }: IUserLinks) => {
                />
             </section>
          )}
-         <h1 tw="mt-3 mb-6 text-white text-lg">{parsed?.name}</h1>
+         <h1 tw="mt-3 text-white text-2xl">{parsed?.name}</h1>
+         <p tw="text-center w-full md:w-6/12 xl:w-4/12 mt-2 mb-6 text-white font-thin opacity-80">
+            {parsed?.bio}
+         </p>
          {parsed?.links?.length > 0 && (
             <ul tw="space-y-3 w-full flex flex-col items-center">
                {parsed?.links?.map(
@@ -151,6 +154,7 @@ const USER = `
    query users($username: String!) {
       users(where: { username: { _eq: $username } }) {
          id
+         bio
          name
          image
          links(

@@ -17,6 +17,7 @@ export const SUBSCRIPTIONS = {
       subscription user($id: String!) {
          user: users_by_pk(id: $id) {
             id
+            bio
             name
             email
             username

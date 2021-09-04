@@ -15,6 +15,7 @@ const Account = () => {
    const [userLoading, setUserLoading] = useState(true)
    const [form, setForm] = useState({
       name: '',
+      bio: '',
    })
 
    const [updateUser, { loading: updatingUser }] = useMutation(
@@ -41,6 +42,7 @@ const Account = () => {
          if (user?.id) {
             setForm({
                name: user.name || '',
+               bio: user.bio || '',
             })
          }
          setUserLoading(false)
@@ -53,7 +55,11 @@ const Account = () => {
       }
    }, [router, session, loading])
 
-   const on_change = (e: React.ChangeEvent<HTMLInputElement>) => {
+   const on_change = (
+      e:
+         | React.ChangeEvent<HTMLInputElement>
+         | React.ChangeEvent<HTMLTextAreaElement>
+   ) => {
       const { name, value } = e.target
       setForm({ ...form, [name]: value })
    }
@@ -89,6 +95,20 @@ const Account = () => {
                            onChange={on_change}
                            placeholder="Enter your name"
                            tw="h-10 border border-gray-300 rounded px-3"
+                        />
+                     </fieldset>
+                     <fieldset tw="mb-3 flex flex-col w-full md:w-5/12">
+                        <label htmlFor="bio" tw="text-gray-500 mb-1">
+                           Bio
+                        </label>
+                        <textarea
+                           id="bio"
+                           name="bio"
+                           maxLength={140}
+                           value={form.bio}
+                           onChange={on_change}
+                           placeholder="Enter your bio"
+                           tw="h-32 border border-gray-300 rounded py-2 px-3"
                         />
                      </fieldset>
                      <Button.Text
