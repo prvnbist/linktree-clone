@@ -19,7 +19,7 @@ export const Link = React.forwardRef(
       return (
          <li
             css={[
-               tw`p-4 bg-white rounded shadow-sm flex items-center gap-4`,
+               tw`p-2 md:p-4 bg-white rounded shadow-sm flex items-center gap-3 md:gap-4`,
                is_dragging && tw`border border-2 border-blue-500`,
             ]}
             {...props}
@@ -28,11 +28,11 @@ export const Link = React.forwardRef(
             <span
                {...handle_props}
                className="group"
-               tw="h-8 w-8 flex items-center justify-center rounded hover:(bg-gray-100)"
+               tw="flex-shrink-0 h-8 w-8 flex items-center justify-center rounded hover:(bg-gray-100)"
             >
                <Icon.Handle tw="group-hover:text-gray-700 stroke-current text-gray-400" />
             </span>
-            <aside tw="flex items-center">
+            <aside tw="hidden flex-shrink-0 md:flex items-center">
                <Toggle
                   id={link.id}
                   is_active={link.is_active}
@@ -46,19 +46,37 @@ export const Link = React.forwardRef(
                   }}
                />
             </aside>
-            <main>
-               <h3 tw="text-lg font-medium text-gray-600">{link.title}</h3>
-               <p tw="text-gray-500">{link.url}</p>
+            <main tw="flex-1 flex md:items-center justify-between flex-col md:flex-row">
+               <section>
+                  <h3 tw="text-lg font-medium text-gray-600">{link.title}</h3>
+                  <p tw="w-[calc(100% - 48px)] md:w-full text-gray-500 truncate">
+                     {link.url}
+                  </p>
+               </section>
+               <aside tw="mt-3 md:mt-0 self-start flex gap-3">
+                  <aside tw="flex flex-shrink-0 md:hidden items-center">
+                     <Toggle
+                        id={link.id}
+                        is_active={link.is_active}
+                        on_change={() => {
+                           update_link({
+                              variables: {
+                                 id: link.id,
+                                 _set: { is_active: !link.is_active },
+                              },
+                           })
+                        }}
+                     />
+                  </aside>
+                  <button
+                     title="Delete Link"
+                     onClick={() => delete_link({ variables: { id: link.id } })}
+                     tw="rounded w-8 h-8 md:h-10 md:w-10 flex items-center justify-center hover:(bg-red-100)"
+                  >
+                     <Icon.Delete size={18} tw="stroke-current text-red-700" />
+                  </button>
+               </aside>
             </main>
-            <aside tw="ml-auto">
-               <button
-                  title="Delete Link"
-                  onClick={() => delete_link({ variables: { id: link.id } })}
-                  tw="rounded h-10 w-10 flex items-center justify-center hover:(bg-red-100)"
-               >
-                  <Icon.Delete size={18} tw="stroke-current text-red-700" />
-               </button>
-            </aside>
          </li>
       )
    }

@@ -94,7 +94,7 @@ const Admin = () => {
    return (
       <Layout>
          <LinkProvider>
-            <main tw="p-3">
+            <main tw="overflow-hidden p-3">
                <LinkForm />
                {loading || loading_links ? (
                   <div tw="mt-4 w-full flex justify-center">
