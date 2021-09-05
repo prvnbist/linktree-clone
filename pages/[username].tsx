@@ -140,8 +140,8 @@ const LinkButton = ({ link = {} }: ILinkButton) => {
                {isOpen && (
                   <section tw="text-center mt-2 border border-gray-800 text-white p-2 pb-4">
                      <p tw="mb-2 text-gray-400">
-                        You're about to visit a page with sensitive content.
-                        Please confirm before visting.
+                        You&apos;re about to visit a page with sensitive
+                        content. Please confirm before visting.
                      </p>
                      <a
                         href={link.url}
