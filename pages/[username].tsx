@@ -1,8 +1,8 @@
 import Image from 'next/image'
+import { useState } from 'react'
 import tw, { styled } from 'twin.macro'
 import { GraphQLClient } from 'graphql-request'
 
-import { ILink } from '../interfaces'
 import { Loader } from '../components'
 import * as Illo from '../assets/illustrations'
 
@@ -45,7 +45,7 @@ const UserLinks = ({ status = 'LOADING', user }: IUserLinks) => {
       )
    return (
       <div
-         tw="bg-gray-50 h-screen p-16 flex flex-col items-center"
+         tw="bg-gray-50 h-screen overflow-y-auto p-6 md:p-16 flex flex-col items-center"
          style={{ backgroundImage: "url('/pattern.svg')" }}
       >
          {parsed?.image && (
@@ -64,7 +64,12 @@ const UserLinks = ({ status = 'LOADING', user }: IUserLinks) => {
          {parsed?.links?.length > 0 && (
             <ul tw="space-y-3 w-full flex flex-col items-center">
                {parsed?.links?.map(
-                  (link: { id: string; title: string; url: string }) => (
+                  (link: {
+                     id: string
+                     url: string
+                     title: string
+                     is_nsfw: boolean
+                  }) => (
                      <LinkButton key={link.id} link={link} />
                   )
                )}
@@ -103,6 +108,7 @@ export const getStaticProps = async ({ params }: any) => {
    }
 
    const [user] = users
+
    return {
       props: {
          status: 'SUCCESS',
@@ -112,26 +118,53 @@ export const getStaticProps = async ({ params }: any) => {
 }
 
 interface ILinkButton {
-   link: { url?: string; title?: string }
+   link: { is_nsfw?: boolean; url?: string; title?: string }
 }
 
 const LinkButton = ({ link = {} }: ILinkButton) => {
+   const [isOpen, setIsOpen] = useState(false)
+
    return (
-      <li tw="list-none h-10 w-full md:w-[380px]">
-         <Button
-            href={link.url}
-            target="_blank"
-            title={link.title}
-            rel="noopener noreferrer"
-         >
-            {link.title}
-         </Button>
+      <li css={[tw`list-none w-full md:w-[380px]`, !link.is_nsfw && tw`h-10`]}>
+         {link.is_nsfw ? (
+            <>
+               <StyledButton onClick={() => setIsOpen(!isOpen)}>
+                  {link.title}
+               </StyledButton>
+               {isOpen && (
+                  <section tw="text-center mt-2 border border-gray-800 text-white p-2 pb-4">
+                     <p tw="mb-2 text-gray-400">
+                        You're about to visit a page with sensitive content.
+                        Please confirm before visting
+                     </p>
+                     <a
+                        href={link.url}
+                        target="_blank"
+                        title={link.title}
+                        rel="noopener noreferrer"
+                        tw="uppercase tracking-wider font-medium text-sm pb-1 text-yellow-300 border-b border-yellow-300"
+                     >
+                        Visit Page
+                     </a>
+                  </section>
+               )}
+            </>
+         ) : (
+            <StyledLink
+               href={link.url}
+               target="_blank"
+               title={link.title}
+               rel="noopener noreferrer"
+            >
+               {link.title}
+            </StyledLink>
+         )}
       </li>
    )
 }
 
-const Button = styled.a`
-   ${tw`overflow-hidden relative h-full w-full border border-white text-white flex items-center justify-center`}
+const StyledLink = styled.a`
+   ${tw`overflow-hidden relative h-10 w-full border border-white text-white flex items-center justify-center`}
    &::after {
       background: #fff;
       content: '';
@@ -149,6 +182,10 @@ const Button = styled.a`
    }
 `
 
+const StyledButton = styled(StyledLink)`
+   cursor: pointer;
+`
+
 const USER = `
    query users($username: String!) {
       users(where: { username: { _eq: $username } }) {
@@ -163,6 +200,7 @@ const USER = `
             id
             url
             title
+            is_nsfw
          }
       }
    }

@@ -7,6 +7,7 @@ export const SUBSCRIPTIONS = {
             id
             url
             title
+            is_nsfw
             priority
             is_active
             created_at

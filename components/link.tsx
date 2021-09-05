@@ -54,7 +54,10 @@ export const Link = React.forwardRef(
                   </p>
                </section>
                <aside tw="md:justify-end w-full items-center mt-3 md:mt-0 flex gap-2">
-                  <aside tw="flex items-center flex-shrink-0 md:hidden">
+                  <section tw="flex items-center flex-shrink-0 md:hidden">
+                     <span tw="text-gray-600 inline-flex mr-1">
+                        {link.is_active ? 'Hide' : 'Show'}
+                     </span>
                      <Toggle
                         id={link.id}
                         is_active={link.is_active}
@@ -67,7 +70,22 @@ export const Link = React.forwardRef(
                            })
                         }}
                      />
-                  </aside>
+                  </section>
+                  <section tw="ml-auto order-2 md:order-none flex items-center flex-shrink-0">
+                     <span tw="text-gray-600 inline-flex mr-1">NSFW</span>
+                     <Toggle
+                        id={link.id + link.title}
+                        is_active={link.is_nsfw}
+                        on_change={() => {
+                           update_link({
+                              variables: {
+                                 id: link.id,
+                                 _set: { is_nsfw: !link.is_nsfw },
+                              },
+                           })
+                        }}
+                     />
+                  </section>
                   <a href={link.url} target="_blank" rel="noopener noreferrer">
                      <button
                         title="View Link"
