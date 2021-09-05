@@ -69,9 +69,15 @@ const UserLinks = ({ status = 'LOADING', user }: IUserLinks) => {
                      url: string
                      title: string
                      is_nsfw: boolean
-                  }) => (
-                     <LinkButton key={link.id} link={link} />
-                  )
+                     is_header: boolean
+                  }) =>
+                     link.is_header ? (
+                        <li tw="mx-auto w-full md:w-[380px] pt-4" key={link.id}>
+                           <SectionHeader>{link.title}</SectionHeader>
+                        </li>
+                     ) : (
+                        <LinkButton key={link.id} link={link} />
+                     )
                )}
             </ul>
          )}
@@ -135,7 +141,7 @@ const LinkButton = ({ link = {} }: ILinkButton) => {
                   <section tw="text-center mt-2 border border-gray-800 text-white p-2 pb-4">
                      <p tw="mb-2 text-gray-400">
                         You're about to visit a page with sensitive content.
-                        Please confirm before visting
+                        Please confirm before visting.
                      </p>
                      <a
                         href={link.url}
@@ -186,6 +192,21 @@ const StyledButton = styled(StyledLink)`
    cursor: pointer;
 `
 
+const SectionHeader = styled.h3`
+   ${tw`text-yellow-200 text-center text-sm uppercase tracking-wider font-medium relative`}
+   &::before, &::after {
+      content: '';
+      top: calc(50% - 1px);
+      ${tw`absolute w-[48px] h-[1px] bg-gray-600`}
+   }
+   &::before {
+      ${tw`left-0`}
+   }
+   &::after {
+      ${tw`right-0`}
+   }
+`
+
 const USER = `
    query users($username: String!) {
       users(where: { username: { _eq: $username } }) {
@@ -201,6 +222,7 @@ const USER = `
             url
             title
             is_nsfw
+            is_header
          }
       }
    }

@@ -6,6 +6,7 @@ export interface ILink {
    priority: number
    is_active: boolean
    created_at: string
+   is_header: boolean
 }
 
 export interface ILinks {

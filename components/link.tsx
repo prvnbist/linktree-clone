@@ -71,32 +71,40 @@ export const Link = React.forwardRef(
                         }}
                      />
                   </section>
-                  <section tw="ml-auto order-2 md:order-none flex items-center flex-shrink-0">
-                     <span tw="text-gray-600 inline-flex mr-1">NSFW</span>
-                     <Toggle
-                        id={link.id + link.title}
-                        is_active={link.is_nsfw}
-                        on_change={() => {
-                           update_link({
-                              variables: {
-                                 id: link.id,
-                                 _set: { is_nsfw: !link.is_nsfw },
-                              },
-                           })
-                        }}
-                     />
-                  </section>
-                  <a href={link.url} target="_blank" rel="noopener noreferrer">
-                     <button
-                        title="View Link"
-                        tw="rounded w-8 h-8 flex items-center justify-center hover:(bg-gray-100)"
-                     >
-                        <Icon.Goto
-                           size={18}
-                           tw="stroke-current text-gray-700"
-                        />
-                     </button>
-                  </a>
+                  {!link.is_header && (
+                     <>
+                        <section tw="ml-auto order-2 md:order-none flex items-center flex-shrink-0">
+                           <span tw="text-gray-600 inline-flex mr-1">NSFW</span>
+                           <Toggle
+                              id={link.id + link.title}
+                              is_active={link.is_nsfw}
+                              on_change={() => {
+                                 update_link({
+                                    variables: {
+                                       id: link.id,
+                                       _set: { is_nsfw: !link.is_nsfw },
+                                    },
+                                 })
+                              }}
+                           />
+                        </section>
+                        <a
+                           href={link.url}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                        >
+                           <button
+                              title="View Link"
+                              tw="rounded w-8 h-8 flex items-center justify-center hover:(bg-gray-100)"
+                           >
+                              <Icon.Goto
+                                 size={18}
+                                 tw="stroke-current text-gray-700"
+                              />
+                           </button>
+                        </a>
+                     </>
+                  )}
                   <button
                      title="Delete Link"
                      onClick={() => delete_link({ variables: { id: link.id } })}

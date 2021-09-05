@@ -10,6 +10,7 @@ export const SUBSCRIPTIONS = {
             is_nsfw
             priority
             is_active
+            is_header
             created_at
          }
       }
