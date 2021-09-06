@@ -87,11 +87,7 @@ const UserLinks = ({ status = 'LOADING', user }: IUserLinks) => {
 
 export default UserLinks
 
-export const getStaticPaths = () => {
-   return { paths: [], fallback: true }
-}
-
-export const getStaticProps = async ({ params }: any) => {
+export const getServerSideProps = async ({ params }: any) => {
    const { username = '' } = params
    if (!username) {
       return {
